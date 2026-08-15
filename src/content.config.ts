@@ -1,5 +1,6 @@
 import { glob } from "astro/loaders";
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
 
 const projectStatus = z.enum(["planned", "development", "preview", "stable", "archived"]);
 
@@ -9,7 +10,7 @@ const projectSchema = z.object({
   status: projectStatus.optional(),
   featured: z.boolean().default(false),
   order: z.number().int().nonnegative(),
-  repository: z.string().url().optional(),
+  repository: z.url().optional(),
   technologies: z.array(z.string()).default([]),
   publishedAt: z.coerce.date(),
 });
