@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/ui/Button.astro";
+---
+
+<BaseLayout
+  description="The requested page was not found. / 请求的页面不存在。"
+  locale="en"
+  noIndex
+  showChrome={false}
+  title="Page not found / 页面不存在"
+>
+  <section class="not-found" data-not-found-locale="en">
+    <div class="container">
+      <span>404</span><h1>Page not found.</h1><p>
+        The page may have moved or no longer exists.
+      </p><Button href="/">Return home</Button>
+    </div>
+  </section>
+  <section class="not-found" data-not-found-locale="zh" hidden lang="zh">
+    <div class="container">
+      <span>404</span><h1>页面不存在。</h1><p>该页面可能已移动，或不再存在。</p><Button
+        href="/zh">返回首页</Button
+      >
+    </div>
+  </section>
+  <script defer is:inline src="/scripts/not-found-locale.js"></script>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: grid;
+    min-height: 65vh;
+    place-items: center;
+    padding: 8rem 0;
+    text-align: center;
+  }
+  .not-found span {
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 740;
+    letter-spacing: 0.14em;
+  }
+  h1 {
+    max-width: 760px;
+    margin: 1rem auto 0;
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 520;
+    letter-spacing: -0.01em;
+    line-height: 0.94;
+  }
+  p {
+    max-width: 31rem;
+    margin: 1.6rem auto 2.2rem;
+    color: var(--text-muted);
+  }
+  :global([data-not-found-locale="zh"]) h1 {
+    letter-spacing: 0;
+    line-height: 1.08;
+  }
+</style>

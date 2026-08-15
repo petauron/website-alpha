@@ -1,0 +1,74 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { site } from "../../data/site";
+---
+
+<BaseLayout
+  description="如何报告影响 Petauron 项目或本网站的安全漏洞。"
+  locale="zh"
+  title="安全"
+>
+  <section class="page-hero">
+    <div class="container">
+      <h1 class="page-hero__title">请负责任地报告漏洞。</h1><p class="page-hero__copy">
+        如果你认为发现了 Petauron 项目的安全问题，请先让我们有机会调查，再公开相关细节。
+      </p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container security-grid">
+      <article class="prose">
+        <h2>私下发送报告</h2><p>
+          请将报告发送至 <a href={`mailto:${site.email.security}`}>{site.email.security}</a
+          >。请附上清晰描述、受影响版本或提交、复现步骤，以及能帮助我们安全验证问题的概念验证材料。
+        </p><h2>报告之后</h2><p>
+          我们会审查报告并了解其潜在影响。如果需要修复，请在公开披露前为调查与协调预留时间。
+        </p><h2>请不要</h2><p>
+          公开披露未修复的漏洞、访问不属于你的数据，或对公共基础设施进行破坏性测试。
+        </p>
+      </article><aside>
+        <span>安全联系方式</span><a href={`mailto:${site.email.security}`}
+          >{site.email.security}</a
+        >
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .security-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 15rem;
+    gap: clamp(3rem, 8vw, 8rem);
+    max-width: 1080px;
+  }
+  aside {
+    display: grid;
+    align-content: start;
+    gap: 0.75rem;
+    padding: 1rem 0 0;
+    height: fit-content;
+    border-top: 1px solid var(--accent);
+  }
+  aside span {
+    color: var(--text-dim);
+    font-size: 0.7rem;
+    font-weight: 720;
+    letter-spacing: 0.11em;
+  }
+  aside a {
+    color: var(--link);
+    font-size: 0.88rem;
+    font-weight: 650;
+    overflow-wrap: anywhere;
+  }
+  aside a:hover {
+    color: var(--link-hover);
+  }
+  @media (max-width: 720px) {
+    .security-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+</style>

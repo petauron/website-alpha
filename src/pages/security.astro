@@ -1,0 +1,81 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
+---
+
+<BaseLayout
+  description="How to report a security vulnerability affecting a Petauron project or this website."
+  locale="en"
+  title="Security"
+>
+  <section class="page-hero">
+    <div class="container">
+      <h1 class="page-hero__title">Report security issues responsibly.</h1><p
+        class="page-hero__copy"
+      >
+        If you think you have found a security issue in a Petauron project, please give us the
+        opportunity to investigate before publishing details.
+      </p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container security-grid">
+      <article class="prose">
+        <h2>Send reports privately</h2><p>
+          Send reports to <a href={`mailto:${site.email.security}`}>{site.email.security}</a>.
+          Include a clear description, affected version or commit, reproduction steps, and any
+          proof-of-concept material that helps us verify the issue safely.
+        </p><h2>After you report</h2><p>
+          We review reports to understand their potential impact. When a fix is required, please
+          allow time for investigation and coordination before public disclosure.
+        </p><h2>Please do not</h2><p>
+          Do not publicly disclose an unpatched vulnerability, access data that does not belong
+          to you, or run disruptive tests against public infrastructure.
+        </p>
+      </article><aside>
+        <span>Security contact</span><a href={`mailto:${site.email.security}`}
+          >{site.email.security}</a
+        >
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .security-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 15rem;
+    gap: clamp(3rem, 8vw, 8rem);
+    max-width: 1080px;
+  }
+  aside {
+    display: grid;
+    align-content: start;
+    gap: 0.75rem;
+    padding: 1rem 0 0;
+    height: fit-content;
+    border-top: 1px solid var(--accent);
+  }
+  aside span {
+    color: var(--text-dim);
+    font-size: 0.7rem;
+    font-weight: 720;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+  aside a {
+    color: var(--link);
+    font-size: 0.88rem;
+    font-weight: 650;
+    overflow-wrap: anywhere;
+  }
+  aside a:hover {
+    color: var(--link-hover);
+  }
+  @media (max-width: 720px) {
+    .security-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+</style>

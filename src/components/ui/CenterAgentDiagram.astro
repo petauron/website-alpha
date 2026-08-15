@@ -1,0 +1,192 @@
+---
+interface Props {
+  label: string;
+  locale?: "en" | "zh";
+}
+
+const { label, locale = "en" } = Astro.props;
+const description =
+  locale === "zh"
+    ? "Vastora Center 通过 Control Plane 连接运行在多个 Node 上的 Vastora Agent。"
+    : "Vastora Center connects through the Control Plane to Vastora Agent instances running on multiple Nodes.";
+---
+
+<figure aria-labelledby="center-agent-title" class="diagram" role="img">
+  <figcaption class="visually-hidden" id="center-agent-title">
+    <strong>{label}.</strong>
+    {description}
+  </figcaption>
+  <svg aria-hidden="true" class="diagram__desktop" focusable="false" viewBox="0 0 760 230">
+    <g class="diagram__lines" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M380 56v56M104 112h552M104 112v28M288 112v28M472 112v28M656 112v28"></path>
+    </g>
+    <g class="diagram__box diagram__box--center">
+      <rect height="52" rx="8" width="184" x="288" y="4"></rect>
+      <text x="380" y="35">VASTORA CENTER</text>
+    </g>
+    <g class="diagram__node" transform="translate(30 140)">
+      <rect height="64" rx="8" width="148"></rect>
+      <text class="diagram__node-name" x="74" y="27">NODE 01</text>
+      <text class="diagram__agent" x="74" y="50">VASTORA AGENT</text>
+    </g>
+    <g class="diagram__node" transform="translate(214 140)">
+      <rect height="64" rx="8" width="148"></rect>
+      <text class="diagram__node-name" x="74" y="27">NODE 02</text>
+      <text class="diagram__agent" x="74" y="50">VASTORA AGENT</text>
+    </g>
+    <g class="diagram__node" transform="translate(398 140)">
+      <rect height="64" rx="8" width="148"></rect>
+      <text class="diagram__node-name" x="74" y="27">NODE 03</text>
+      <text class="diagram__agent" x="74" y="50">VASTORA AGENT</text>
+    </g>
+    <g class="diagram__node" transform="translate(582 140)">
+      <rect height="64" rx="8" width="148"></rect>
+      <text class="diagram__node-name" x="74" y="27">NODE 04</text>
+      <text class="diagram__agent" x="74" y="50">VASTORA AGENT</text>
+    </g>
+  </svg>
+  <div aria-hidden="true" class="diagram__mobile">
+    <div class="diagram__mobile-center">VASTORA CENTER</div>
+    <span class="diagram__mobile-trunk"></span>
+    <div class="diagram__mobile-nodes">
+      {
+        Array.from({ length: 4 }, (_, index) => (
+          <div class="diagram__mobile-node">
+            <strong>NODE {String(index + 1).padStart(2, "0")}</strong>
+            <span>VASTORA AGENT</span>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</figure>
+
+<style>
+  .diagram {
+    width: 100%;
+    margin: 0;
+    color: var(--accent);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  svg {
+    width: 100%;
+    height: auto;
+  }
+
+  .diagram__box rect,
+  .diagram__node rect {
+    fill: #ffffff;
+    stroke: currentColor;
+    stroke-width: 1.5;
+  }
+
+  text {
+    fill: currentColor;
+    font-family: var(--font-mono);
+    text-anchor: middle;
+  }
+
+  .diagram__box text {
+    font-size: 16px;
+    font-weight: 620;
+  }
+
+  .diagram__node-name {
+    font-size: 15px;
+    font-weight: 620;
+  }
+
+  .diagram__agent {
+    font-size: 10px;
+    font-weight: 560;
+    letter-spacing: 0.04em;
+  }
+
+  .diagram__mobile {
+    display: none;
+  }
+
+  @media (max-width: 560px) {
+    .diagram__desktop {
+      display: none;
+    }
+
+    .diagram__mobile {
+      display: grid;
+      justify-items: center;
+      width: 100%;
+      padding: 0.25rem 0;
+      font-family: var(--font-mono);
+    }
+
+    .diagram__mobile-center {
+      padding: 0.7rem 0.85rem;
+      border: 1px solid currentColor;
+      border-radius: 7px;
+      background: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 650;
+    }
+
+    .diagram__mobile-trunk {
+      width: 1px;
+      height: 1.1rem;
+      background: currentColor;
+    }
+
+    .diagram__mobile-nodes {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.15rem 0.75rem;
+      width: 100%;
+      padding-top: 1.1rem;
+      border-top: 1px solid currentColor;
+    }
+
+    .diagram__mobile-node {
+      position: relative;
+      display: grid;
+      gap: 0.25rem;
+      justify-items: center;
+      padding: 0.75rem 0.35rem;
+      border: 1px solid currentColor;
+      border-radius: 7px;
+      background: #ffffff;
+      text-align: center;
+    }
+
+    .diagram__mobile-node::before {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      width: 1px;
+      height: 1.1rem;
+      background: currentColor;
+      content: "";
+    }
+
+    .diagram__mobile-node strong {
+      font-size: 0.74rem;
+      font-weight: 650;
+    }
+
+    .diagram__mobile-node span {
+      font-size: 0.7rem;
+      font-weight: 570;
+      letter-spacing: 0.025em;
+    }
+  }
+</style>

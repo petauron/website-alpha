@@ -1,0 +1,26 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import FeaturedProject from "../../components/sections/FeaturedProject.astro";
+import Hero from "../../components/sections/Hero.astro";
+import Principles from "../../components/sections/Principles.astro";
+
+const projects = (await getCollection("projectsZh")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const featured = projects.find((project) => project.data.featured);
+const updates = (await getCollection("updatesZh")).sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+);
+const latest = updates[0];
+---
+
+<BaseLayout locale="zh">
+  <Hero locale="zh" />
+  {featured && <FeaturedProject locale="zh" project={featured} />}
+  <Principles
+    latestHref={latest ? `/zh/updates/${latest.id}` : undefined}
+    latestTitle={latest?.data.title}
+    locale="zh"
+  />
+</BaseLayout>

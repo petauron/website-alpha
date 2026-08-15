@@ -1,0 +1,65 @@
+---
+interface Props {
+  href: string;
+  variant?: "primary" | "secondary";
+  external?: boolean;
+}
+
+const { href, variant = "primary", external = false } = Astro.props;
+---
+
+<a
+  class:list={["button", `button--${variant}`]}
+  href={href}
+  rel={external ? "noreferrer" : undefined}
+  target={external ? "_blank" : undefined}
+>
+  <slot />
+  <svg aria-hidden="true" fill="none" height="16" viewBox="0 0 16 16" width="16">
+    <path
+      d="M3.25 8h9.5M8.75 4l4 4-4 4"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.5"></path>
+  </svg>
+</a>
+
+<style>
+  .button {
+    display: inline-flex;
+    gap: 0.65rem;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: 0 1rem 0 1.15rem;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0;
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      color 180ms ease;
+  }
+  .button--primary {
+    background: var(--accent);
+    color: #ffffff;
+  }
+  .button--primary:hover {
+    background: var(--accent-strong);
+  }
+  .button--secondary {
+    border-color: var(--line-strong);
+    background: #ffffff;
+    color: var(--text);
+  }
+  .button--secondary:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--link-hover);
+  }
+</style>

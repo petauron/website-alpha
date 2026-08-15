@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+.pnpm-store/
+.agents/
+.impeccable/
+design-lab-staging/
+.DS_Store

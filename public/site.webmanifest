@@ -1,0 +1,10 @@
+{
+  "name": "Petauron",
+  "short_name": "Petauron",
+  "description": "Petauron is an open-source technology organization whose projects are built with AI capabilities.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

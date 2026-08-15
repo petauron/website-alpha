@@ -1,0 +1,67 @@
+---
+import { site } from "../data/site";
+import { translations, type Locale } from "../data/i18n";
+import Header from "../components/layout/Header.astro";
+import Footer from "../components/layout/Footer.astro";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noIndex?: boolean;
+  locale?: Locale;
+  showChrome?: boolean;
+}
+
+const {
+  title,
+  locale = "en",
+  description = translations[locale].description,
+  image = "/social/default-og-placeholder.png",
+  noIndex = false,
+  showChrome = true,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).toString();
+const pageTitle = title ? `${title} — ${site.name}` : site.name;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: site.name,
+  url: site.url,
+  description: translations[locale].description,
+  sameAs: [site.organization],
+};
+const directionContract = `THESIS: Petauron presents a clear open-source organization before its product.\nOWN-WORLD: White space, cobalt rules, precise typography, and honest system diagrams form a calm developer-facing identity.\nSTORY: Organization promise, verified AI-assisted practice, current product, build principles, then public updates.\nFIRST VIEWPORT: A direct organization statement, proof, actions, and the beginning of Vastora's Center–Agent model.\nFORM: Seed b683a8ea. Flat white surfaces, cobalt geometry, hairline borders, Geist typography, no decorative gradients or false metrics.\nFINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance`;
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="#ffffff" name="theme-color" />
+    <meta content={description} name="description" />
+    {noIndex && <meta content="noindex, nofollow" name="robots" />}
+    <link href={canonical} rel="canonical" />
+    <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon" />
+    <link href="/site.webmanifest" rel="manifest" />
+    <meta content={pageTitle} property="og:title" />
+    <meta content={description} property="og:description" />
+    <meta content={canonical} property="og:url" />
+    <meta content="website" property="og:type" />
+    <meta content={new URL(image, site.url).toString()} property="og:image" />
+    <meta content="summary_large_image" name="twitter:card" />
+    <meta content={pageTitle} name="twitter:title" />
+    <meta content={description} name="twitter:description" />
+    <title>{pageTitle}</title>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <Fragment set:html={`<!-- ${directionContract} -->`} />
+    {showChrome && <Header locale={locale} />}
+    <main class="site-main"><slot /></main>
+    {showChrome && <Footer locale={locale} />}
+  </body>
+</html>

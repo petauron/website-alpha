@@ -1,0 +1,27 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import type { Locale } from "../data/i18n";
+
+interface Props {
+  title: string;
+  description: string;
+  locale?: Locale;
+}
+
+const { title, description, locale = "en" } = Astro.props;
+---
+
+<BaseLayout description={description} locale={locale} title={title}>
+  <section class="page-hero">
+    <div class="container">
+      <h1 class="page-hero__title">{title}</h1><p class="page-hero__copy">{description}</p>
+    </div>
+  </section>
+  <section class="section"><div class="container content"><slot /></div></section>
+</BaseLayout>
+
+<style>
+  .content {
+    max-width: 820px;
+  }
+</style>

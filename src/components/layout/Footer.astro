@@ -1,0 +1,213 @@
+---
+import { localizePath, translations, type Locale } from "../../data/i18n";
+import { navigation } from "../../data/navigation";
+import { site } from "../../data/site";
+import { socialLinks } from "../../data/social";
+import BrandMark from "../ui/BrandMark.astro";
+import SocialIcon from "../ui/SocialIcon.astro";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = "en" } = Astro.props;
+const text = translations[locale];
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__lead">
+      <div>
+        <a aria-label={text.accessibility.home} class="brand" href={localizePath("/", locale)}>
+          <span class="brand__mark"><BrandMark size={23} /></span>
+          <span>{site.name}</span>
+        </a>
+        <p>{text.footer.tagline}</p>
+      </div>
+      <nav aria-label={text.accessibility.socialLinks} class="footer__social">
+        {
+          socialLinks.map((link) => (
+            <a
+              aria-label={link.name}
+              data-platform={link.name}
+              href={link.href}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <SocialIcon name={link.name} size={20} />
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+    <div class="footer__directory">
+      <div>
+        <span>{text.footer.explore}</span>
+        {navigation(locale).map((item) => <a href={item.href}>{item.label}</a>)}
+      </div>
+      <div>
+        <span>{text.footer.contact}</span>
+        <a href={`mailto:${site.email.contact}`}>{site.email.contact}</a>
+        <a href={`mailto:${site.email.security}`}>{site.email.security}</a>
+      </div>
+      <div>
+        <span>{text.footer.securityTitle}</span>
+        <a href={localizePath("/security", locale)}>{text.footer.security}</a>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 Petauron</span>
+      <span
+        >{locale === "zh" ? "开放构建，清晰表达。" : "Built openly. Explained clearly."}</span
+      >
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: 6rem;
+    padding: 4.5rem 0 1.5rem;
+    border-top: 1px solid var(--line);
+    background: var(--bg-elevated);
+  }
+
+  .footer__lead {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 3.75rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    gap: 0.65rem;
+    align-items: center;
+    min-height: 2.75rem;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 660;
+    text-transform: uppercase;
+  }
+
+  .brand__mark {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border: 1px dashed var(--line-strong);
+    border-radius: 6px;
+    color: var(--accent);
+  }
+
+  .footer__lead p {
+    max-width: 34rem;
+    margin-top: 0.9rem;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+  }
+
+  .footer__social {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .footer__social a {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #ffffff;
+    color: #64748b;
+    transition:
+      border-color 160ms ease,
+      color 160ms ease;
+  }
+
+  .footer__social a[data-platform="GitHub"]:hover {
+    border-color: #181717;
+    color: #181717;
+  }
+
+  .footer__social a[data-platform="X"]:hover {
+    border-color: #000000;
+    color: #000000;
+  }
+
+  .footer__social a[data-platform="Telegram"]:hover {
+    border-color: #229ed9;
+    color: #229ed9;
+  }
+
+  .footer__directory {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr 1fr;
+    gap: 2rem;
+    padding: 2.4rem 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .footer__directory > div {
+    display: grid;
+    gap: 0.55rem;
+    align-content: start;
+  }
+
+  .footer__directory span {
+    margin-bottom: 0.35rem;
+    color: var(--text-dim);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .footer__directory a {
+    width: fit-content;
+    color: var(--link);
+    font-size: 0.86rem;
+    text-decoration: underline transparent;
+    text-underline-offset: 0.28em;
+    transition:
+      color 160ms ease,
+      text-decoration-color 160ms ease;
+  }
+
+  .footer__directory a:hover {
+    color: var(--link-hover);
+    text-decoration-color: currentColor;
+  }
+
+  .footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--line);
+    color: var(--text-dim);
+    font-size: 0.76rem;
+  }
+
+  @media (max-width: 720px) {
+    .footer {
+      margin-top: 4rem;
+    }
+
+    .footer__lead {
+      display: grid;
+      padding-bottom: 2.75rem;
+    }
+
+    .footer__directory {
+      grid-template-columns: 1fr;
+    }
+
+    .footer__bottom {
+      display: grid;
+    }
+  }
+</style>

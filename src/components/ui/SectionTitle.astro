@@ -1,0 +1,13 @@
+---
+interface Props {
+  title: string;
+  copy?: string;
+}
+
+const { title, copy } = Astro.props;
+---
+
+<div class="section-title">
+  <h2 class="section-heading">{title}</h2>
+  {copy && <p class="section-copy">{copy}</p>}
+</div>

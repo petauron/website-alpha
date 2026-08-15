@@ -1,0 +1,58 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  description="关于 Petauron、组织名称的来源，以及我们如何借助 AI 构建开源软件。"
+  locale="zh"
+  title="关于"
+>
+  <section class="page-hero">
+    <div class="container">
+      <h1 class="page-hero__title">关于 Petauron。</h1><p class="page-hero__copy">
+        Petauron 是一个借助 AI 能力构建实用软件的开源技术组织。
+      </p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container about-grid">
+      <div class="about-grid__aside"><span>名称的含义</span></div><article class="prose">
+        <p>
+          Petauron 是由蜜袋鼯的学名 <a
+            href="https://australian.museum/learn/animals/mammals/sugar-glider/"
+            rel="noreferrer"
+            target="_blank"><i lang="la">Petaurus breviceps</i></a
+          > 延伸而来的自造词。它保留词干 <em>Petaur-</em>，并以 <em>-on</em> 收尾。
+        </p><h2>以 AI 构建</h2><p>
+          Petauron 的所有项目都由 AI 能力参与构建，大量代码由 AI
+          编写和审查。我们也会持续评估并采用实用的新技术。
+        </p><h2>默认开源</h2><p>
+          开源代码让人们能够审查实现、报告问题并共同改进工具。敏感信息保持私密；重要的公开决策应在可行时记录清楚。
+        </p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 8rem);
+    max-width: 1080px;
+  }
+  .about-grid__aside {
+    padding-top: 1rem;
+    border-top: 1px solid var(--accent);
+    color: var(--text-dim);
+    font-size: 0.75rem;
+    font-weight: 720;
+    letter-spacing: 0.11em;
+  }
+  @media (max-width: 720px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>

@@ -1,0 +1,25 @@
+---
+import { getCollection } from "astro:content";
+import FeaturedProject from "../../../components/sections/FeaturedProject.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+const projects = (await getCollection("projectsZh")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<BaseLayout
+  description="Vastora 是 Petauron 基于 Center–Agent 架构构建的集中式服务器管理平台。"
+  locale="zh"
+  title="产品"
+>
+  <section class="page-hero">
+    <div class="container">
+      <h1 class="page-hero__title">产品</h1><p class="page-hero__copy">
+        Petauron 当前只有一个产品：Vastora，一个基于 Center–Agent
+        架构构建的集中式服务器管理平台。
+      </p>
+    </div>
+  </section>
+  {projects.map((project) => <FeaturedProject locale="zh" project={project} />)}
+</BaseLayout>

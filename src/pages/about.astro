@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  description="About Petauron, the origin of its name, and how the organization builds open-source software with AI."
+  locale="en"
+  title="About"
+>
+  <section class="page-hero">
+    <div class="container">
+      <h1 class="page-hero__title">About Petauron.</h1><p class="page-hero__copy">
+        Petauron is an open-source technology organization that builds practical software with
+        AI capabilities.
+      </p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container about-grid">
+      <div class="about-grid__aside"><span>Why the name</span></div><article class="prose">
+        <p>
+          Petauron is a coined name derived from the sugar glider's scientific name, <a
+            href="https://australian.museum/learn/animals/mammals/sugar-glider/"
+            rel="noreferrer"
+            target="_blank"><i lang="la">Petaurus breviceps</i></a
+          >. It keeps the <em>Petaur-</em> stem and adds the ending <em>-on</em>.
+        </p><h2>Built with AI</h2><p>
+          Every Petauron project is built with AI capabilities. AI writes and reviews
+          substantial portions of the code. We also evaluate and adopt useful new technologies.
+        </p><h2>Open-source by default</h2><p>
+          Open-source code lets people inspect implementation, report problems, and improve
+          tools together. Sensitive information remains private; important public decisions
+          should be documented when practical.
+        </p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 8rem);
+    max-width: 1080px;
+  }
+  .about-grid__aside {
+    padding-top: 1rem;
+    border-top: 1px solid var(--accent);
+    color: var(--text-dim);
+    font-size: 0.75rem;
+    font-weight: 720;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+  @media (max-width: 720px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>

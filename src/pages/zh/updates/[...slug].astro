@@ -1,0 +1,52 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const updates = await getCollection("updatesZh");
+  return updates.map((update) => ({ params: { slug: update.id }, props: { update } }));
+}
+
+const { update } = Astro.props;
+const { Content } = await render(update);
+const dateFormat = new Intl.DateTimeFormat("zh-CN", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
+const kindLabels = {
+  announcement: "公告",
+  "development-log": "开发日志",
+  release: "发布",
+};
+---
+
+<BaseLayout description={update.data.description} locale="zh" title={update.data.title}>
+  <section class="page-hero">
+    <div class="container article-hero">
+      <span>{dateFormat.format(update.data.publishedAt)} · {kindLabels[update.data.kind]}</span
+      ><h1 class="page-hero__title">{update.data.title}</h1><p class="page-hero__copy">
+        {update.data.description}
+      </p>
+    </div>
+  </section>
+  <section class="section">
+    <article class="container prose article"><Content /></article>
+  </section>
+</BaseLayout>
+
+<style>
+  .article-hero > span {
+    color: var(--text-dim);
+    font-size: 0.77rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+  }
+  .article-hero h1 {
+    margin-top: 1.25rem;
+    font-size: clamp(2.9rem, 6vw, 5.5rem);
+  }
+  .article {
+    max-width: 760px;
+  }
+</style>
