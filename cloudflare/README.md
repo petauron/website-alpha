@@ -41,9 +41,10 @@ CLOUDFLARE_API_TOKEN="your-temporary-token" \
 node cloudflare/configure-pages.mjs --apply
 ```
 
-The script creates `website-alpha` when absent, or updates it only when the existing
-project is already connected to `petauron/website-alpha`. It refuses to overwrite a
-project linked to another repository or a direct-upload project.
+The script first discovers any existing Pages project already connected to
+`petauron/website-alpha`, regardless of its Cloudflare project name. If none exists, it
+creates `website-alpha`. It refuses to overwrite a project linked to another repository
+or a direct-upload project.
 
 ## After the first successful deployment
 

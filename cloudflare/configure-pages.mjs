@@ -28,7 +28,11 @@ if (!token || !accountId) {
 }
 
 const apiBase = `https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(accountId)}`;
-const projectEndpoint = `${apiBase}/pages/projects/${encodeURIComponent(config.name)}`;
+const projectsEndpoint = `${apiBase}/pages/projects`;
+
+function projectEndpoint(projectName) {
+  return `${projectsEndpoint}/${encodeURIComponent(projectName)}`;
+}
 
 function messagesFrom(body) {
   const messages = [...(body?.errors ?? []), ...(body?.messages ?? [])]
@@ -48,23 +52,6 @@ async function cloudflareRequest(url, options = {}) {
   });
   const body = await response.json().catch(() => null);
 
-  if (!response.ok || body?.success === false) {
-    throw new Error(`Cloudflare API ${response.status}: ${messagesFrom(body)}`);
-  }
-
-  return body.result;
-}
-
-async function existingProject() {
-  const response = await fetch(projectEndpoint, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  if (response.status === 404) {
-    return null;
-  }
-
-  const body = await response.json().catch(() => null);
   if (!response.ok || body?.success === false) {
     throw new Error(`Cloudflare API ${response.status}: ${messagesFrom(body)}`);
   }
@@ -129,6 +116,37 @@ function assertCompatible(existing) {
   }
 }
 
+async function existingProject() {
+  const projects = await cloudflareRequest(`${projectsEndpoint}?per_page=100`);
+  const matchingProjects = projects.filter((project) => {
+    const sourceConfig = project.source?.config;
+    return (
+      project.source?.type === "github" &&
+      sourceConfig?.owner === config.source.config.owner &&
+      sourceConfig?.repo_name === config.source.config.repo_name
+    );
+  });
+
+  if (matchingProjects.length > 1) {
+    throw new Error(
+      `More than one Pages project is linked to ${config.source.config.owner}/${config.source.config.repo_name}. Resolve this in Cloudflare before running the configurator.`,
+    );
+  }
+
+  if (matchingProjects.length === 1) {
+    return matchingProjects[0];
+  }
+
+  const nameCollision = projects.find((project) => project.name === config.name);
+  if (nameCollision) {
+    throw new Error(
+      `Pages project \"${config.name}\" already exists but is not linked to ${config.source.config.owner}/${config.source.config.repo_name}. Refusing to overwrite it.`,
+    );
+  }
+
+  return null;
+}
+
 const repository = await githubRepository();
 const payload = projectPayload(repository);
 const existing = await existingProject();
@@ -153,7 +171,7 @@ if (!args.has("--apply")) {
 }
 
 const result = await cloudflareRequest(
-  existing ? projectEndpoint : `${apiBase}/pages/projects`,
+  existing ? projectEndpoint(existing.name) : projectsEndpoint,
   {
     method: existing ? "PATCH" : "POST",
     body: JSON.stringify(
