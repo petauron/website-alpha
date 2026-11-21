@@ -6,3 +6,10 @@ dist/
 .impeccable/
 design-lab-staging/
 .DS_Store
+
+/tasks/
+/archive/
+/workspaces/
+.env
+.env.*
+!.env.example
